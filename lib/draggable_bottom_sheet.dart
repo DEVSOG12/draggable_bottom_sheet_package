@@ -34,13 +34,13 @@ class DraggableBottomSheet extends StatefulWidget {
 
   DraggableBottomSheet({
     this.alignment = Alignment.bottomLeft,
-    @required this.backgroundWidget,
+    required this.backgroundWidget,
     this.blurBackground = true,
-    @required this.expandedChild,
+    required this.expandedChild,
     this.expansionExtent = 10,
     this.maxExtent = double.infinity,
     this.minExtent = 10,
-    @required this.previewChild,
+    required this.previewChild,
     this.scrollDirection = Axis.vertical,
   });
 
@@ -49,8 +49,8 @@ class DraggableBottomSheet extends StatefulWidget {
 }
 
 class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
-  double currentHeight;
-  double newHeight;
+  double? currentHeight;
+  double? newHeight;
 
   @override
   void initState() {
@@ -62,8 +62,8 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        widget.backgroundWidget ?? SizedBox(),
-        (currentHeight - widget.minExtent < 10 || !widget.blurBackground)
+        widget.backgroundWidget ,
+        (currentHeight! - widget.minExtent < 10 || !widget.blurBackground)
             ? SizedBox()
             : Positioned.fill(
                 child: GestureDetector(
@@ -80,17 +80,17 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
           child: GestureDetector(
             onVerticalDragUpdate: (details) {
               if (widget.scrollDirection == Axis.horizontal) return;
-              newHeight = currentHeight - details.delta.dy;
-              if (newHeight > widget.minExtent &&
-                  newHeight < widget.maxExtent) {
+              newHeight = currentHeight! - details.delta.dy;
+              if (newHeight! > widget.minExtent &&
+                  newHeight! < widget.maxExtent) {
                 setState(() => currentHeight = newHeight);
               }
             },
             onHorizontalDragUpdate: (details) {
               if (widget.scrollDirection == Axis.vertical) return;
-              newHeight = currentHeight + details.delta.dx;
-              if (newHeight > widget.minExtent &&
-                  newHeight < widget.maxExtent) {
+              newHeight = currentHeight! + details.delta.dx;
+              if (newHeight! > widget.minExtent &&
+                  newHeight! < widget.maxExtent) {
                 setState(() => currentHeight = newHeight);
               }
             },
@@ -105,21 +105,15 @@ class _DraggableBottomSheetState extends State<DraggableBottomSheet> {
                 constraints: BoxConstraints(
                   maxWidth: (widget.scrollDirection == Axis.vertical)
                       ? double.infinity
-                      : currentHeight,
+                      : currentHeight!,
                   maxHeight: (widget.scrollDirection == Axis.horizontal)
                       ? double.infinity
-                      : currentHeight,
+                      : currentHeight!,
                 ),
                 child:
-                    (currentHeight - widget.minExtent < widget.expansionExtent)
-                        ? ((widget.previewChild) ??
-                            Container(
-                              color: Theme.of(context).primaryColor,
-                            ))
-                        : ((widget.expandedChild) ??
-                            Container(
-                              color: Theme.of(context).primaryColor,
-                            )),
+                    (currentHeight! - widget.minExtent < widget.expansionExtent)
+                        ? ((widget.previewChild))
+                        : ((widget.expandedChild)),
               ),
             ),
           ),

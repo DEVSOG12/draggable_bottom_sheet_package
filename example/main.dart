@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
 }
 
 class DraggableBottomSheetExample extends StatelessWidget {
-  DraggableBottomSheetExample({Key key, this.title}) : super(key: key);
-  final String title;
+  DraggableBottomSheetExample({Key? key, this.title}) : super(key: key);
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class DraggableBottomSheetExample extends StatelessWidget {
       backgroundWidget: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text(title),
+          title: Text(title!),
           backgroundColor: Colors.deepOrange,
         ),
         body: Container(
